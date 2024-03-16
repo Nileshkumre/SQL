@@ -1,0 +1,21 @@
+-- creating database
+CREATE database B22DB
+
+-- renaming database
+execute sp_renamedb B22DB, B22DBVersion1
+execute sp_renamedb B22DBVersion1, B22DB
+
+-- dropping database
+drop database B22DBVersion1
+
+-- backup database
+backup database B22DB to disk = 'E:\temp\new\new.bak'
+
+-- differential backup 
+backup database B22DB to disk = 'E:\temp\new\new.bak'
+with differential
+
+drop database B22DB -- format/ database does not exists
+
+-- restore database/ get back database on machine
+restore database B22DB from disk = 'E:\temp\new\new.bak'
