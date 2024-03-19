@@ -1,0 +1,105 @@
+go
+select * from Student
+go
+-- ascending order
+select * from Student order by Gender 
+
+-- descending order
+select * from Student order by Gender desc
+
+-- sort based on multiple columns
+select * from Student order by Gender, Name
+
+select * from Student order by Gender asc, Name desc
+
+select * from Student order by RollNumber, Gender
+
+select * from Student order by Age
+
+insert into Student values (10, 'pooja', 'female', 'delhi', 23, null, 0)
+
+select * from Student order by PaidFees
+
+-- null is not a value
+select * from Student where PaidFees is null
+
+-- aggegate functions
+select * from Student
+
+-- count() to fetch number of records
+select count(*) from Student
+select count(1) from Student
+select count(City) from Student
+select count(PaidFees) from Student -- count does not consider null value
+
+-- min() to fetch minimum value
+select * from Student
+
+select min(PaidFees) from Student -- 0
+select min(Age) from Student -- 19
+select min(City) from Student
+
+-- max() to fetch maximum value
+select * from Student
+
+select max(PaidFees) from Student -- 50000
+select max(Age) from Student -- 32
+
+-- sum() to fetch sum of all records
+select * from Student
+
+select sum(PaidFees) from Student
+
+-- avg() to fetch average of records
+select * from Student
+
+select avg(PaidFees) from Student
+
+--- group by clause
+
+select count(1) from Student where Gender = 'male'
+select count(1) from Student where Gender = 'female'
+
+select Gender, count(RollNumber) as Total from Student
+group by Gender
+
+select Gender, City, count(RollNumber) as Total from Student
+group by Gender, City
+
+select Gender, min(PaidFees) from Student group by Gender
+
+select Gender, sum(PaidFees) from Student group by Gender
+
+select Age, count(RollNumber) from Student group by Age
+
+-- fetch only age group having minimum 2 members
+--select Age, count(RollNumber) from Student group by Age
+--where count(RollNumber) >= 2
+
+select Age, count(RollNumber) from Student
+where count(RollNumber) >= 2 -- aggregate function not allowed in where clause
+group by Age
+
+select Age, count(RollNumber) from Student
+where Age > 25
+group by Age
+
+select Age, count(RollNumber) from Student
+group by Age
+having count(RollNumber) >= 2
+
+select  count(RollNumber) from Student
+having count(RollNumber) >= 2
+
+
+select Age, count(RollNumber) from Student
+where Age >= 20
+group by Age
+
+select Age, count(RollNumber) from Student
+group by Age
+having Age >= 20
+
+select RollNumber, Name from Student
+select RollNumber, Name as [Student Name] from Student
+select * from Student
