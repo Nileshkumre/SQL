@@ -1,0 +1,88 @@
+go
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+go
+-- column alias
+select RollNumber, Name as [Student Name], Gender, City as [Current City], 
+Age, PaidFees, IsConfirmed from Student
+go
+-- = != operators
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where RollNumber = 1
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where 1 = 1
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Gender = 'male'
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Gender != 'male'
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Gender <> 'male'
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Age > 22
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Age >= 22
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Age <= 22
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Gender = 'male' and Age > 22
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Gender = 'male' and Age > 50
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Gender = 'male' or Age > 22
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where RollNumber = 1 and RollNumber = 2 and RollNumber = 3
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where RollNumber = 1 or RollNumber = 2 or RollNumber = 3
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Age >= 21 and Age <= 24
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Age between 21 and 24
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Age not between 21 and 24
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from tudent
+where Age = 22 or Age = 24 or Age = 32
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Age in (22,24,32,28)
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Age not in (22,24,32,28)
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Name = 'Riya'
+
+-- starts with v
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Name like 'v%'
+
+-- ends with l
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Name like '%l'
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Name like '%riya%'
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Name like '_i%'
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Name like '%[aeiou]%'
+
+select RollNumber, Name, Gender, City, Age, PaidFees, IsConfirmed from Student
+where Name not like 'v%'
+
