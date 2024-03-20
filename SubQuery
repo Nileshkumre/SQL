@@ -1,0 +1,166 @@
+go
+select RollNumber from Student
+go
+-- select Student -- error
+go
+-- by using group by clause how i get trainer name instead of 
+-- trainer id with number of assigned student
+create table Trainer
+(
+Id int primary key,
+Name varchar(50),
+Experience int
+)
+go
+insert into Trainer values (1, 'vikul', 13), (2, 'usha', 2)
+go
+create table Student
+(
+RollNumber int primary key,
+Name varchar(50),
+City varchar(50),
+TrainerId int foreign key references Trainer(Id)
+)
+go
+insert into Student values (1,'ajay', 'pune', 1), (2, 'ganesh', 'mumbai', 1)
+insert into Student values (3, 'vishal', 'pune', 2)
+insert into Student values (4, 'bahu', 'pune', null)
+go
+select * from Trainer
+select * from Student
+go
+select TrainerId, count(RollNumber) as Total from Student
+group by TrainerId
+go
+create table Product
+(
+Id int primary key identity,
+Name varchar(50),
+Price int
+)
+go
+insert into Product values 
+('Mobile', 15000), ('TV', 25000), ('LAPTOP', 50000)
+go
+create table ProductSales
+(
+Id int primary key identity,
+ProductId int foreign key references Product(Id),
+Quantity int
+)
+go
+insert into ProductSales values 
+(1, 1), (3, 1), (1, 4)
+go
+select * from Product
+select * from ProductSales
+go
+-- product name which are sold
+select Name from Product where Id in (1, 3)
+select distinct ProductId from ProductSales 
+
+-- using suqbuery
+select Name from Product where Id in (select distinct ProductId from ProductSales)
+
+-- product name which are not sold
+select Name from Product where Id not in (select distinct ProductId from ProductSales)
+
+-- Product Name, Price 
+select Name, Price from Product
+
+-- Product Id & Total Number of quantity sold
+select ProductId, Quantity from ProductSales
+
+select sum(Quantity) from ProductSales where ProductId = 1
+select sum(Quantity) from ProductSales where ProductId = 2
+select sum(Quantity) from ProductSales where ProductId = 3
+
+select ProductId, sum(Quantity) from ProductSales group by ProductId
+
+-- Product Name, Price, total quantity sold = corelated subquery
+select Name, Price,
+(select sum(Quantity) from ProductSales where ProductId = Product.Id) as SoldQuantity
+from Product
+
+-- total sale amount
+select sum(Quantity) from ProductSales where ProductId = 1
+
+select Name, Price,
+(select sum(Quantity) from ProductSales where ProductId = Product.Id) as SoldQuantity,
+(select sum(Quantity) * Product.Price from ProductSales where ProductId = Product.Id) as SalesAmount
+from Product
+
+-- group by Product Id with Sold quantity
+select ProductId, sum(Quantity) from ProductSales
+group by ProductId
+
+
+-- declaring a variable
+declare @Name varchar(50) = 'ajay'
+print @Name
+set @Name = 'ganesh'
+print @Name
+
+declare @Id int 
+print @Id
+set @Id = 10
+print @Id
+
+declare @a int = 10, @b int = 11
+print @a + @b
+
+-- conditional statements
+if @a = @b
+begin
+	print 'EQUAL'
+end
+else 
+begin
+	print 'NOT EQUAL'
+end
+
+-- insert into Product values ('Mobile', 20000)
+
+-- insert product only if not exists in product table
+if not exists (select Name from Product where Name = 'mobile')
+begin
+	insert into Product values ('Mobile', 20000)
+end
+else
+begin
+	print 'Product is already been added'
+end
+go
+select * from Product
+select * from ProductSales
+go
+
+declare @start int = 1
+while @start <= 5
+begin
+	print 'good morning'
+	set @start = @start + 1
+end
+
+go
+
+declare @start1 int = 2
+while @start1 <= 20
+begin
+	print @start1
+	set @start1 = @start1 + 2
+end
+
+go
+
+-- I want to insert huge number of records in a table for testing purpose
+declare @counter int = 4
+while @counter <= 100000
+begin
+	insert into Product values ('Product ' + cast(@counter as varchar(7)), @counter)
+	set @counter = @counter + 1
+end
+
+select count(1) from Product
+
+select Name, Price from Product
