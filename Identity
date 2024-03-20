@@ -1,0 +1,163 @@
+go
+create table ConfirmedStudents
+(
+RollNumber int primary key,
+Name varchar(50),
+City varchar(50)
+)
+go
+insert into ConfirmedStudents values 
+(1, 'ajay','pune'), (2, 'ganesh', 'mumbai')
+go
+select * from ConfirmedStudents
+go
+insert into ConfirmedStudents values (3, 'vishal', 'mumbai')
+go
+drop table ConfirmedStudents
+go
+create table ConfirmedStudents
+(
+RollNumber int primary key identity(1,1),
+Name varchar(50),
+City varchar(50)
+)
+go
+insert into ConfirmedStudents values ('ajay','pune')
+insert into ConfirmedStudents values ('ganesh', 'mumbai')
+go
+select * from ConfirmedStudents
+go
+insert into ConfirmedStudents values ('vishal', 'mumbai')
+go
+insert into ConfirmedStudents values ('vasudha', 'pune')
+go
+delete from ConfirmedStudents where RollNumber = 3
+go
+select * from ConfirmedStudents
+go
+insert into ConfirmedStudents values ('Riya', 'pune') -- 5
+go
+-- insert identity value explicitly
+
+set identity_insert ConfirmedStudents on
+
+insert into ConfirmedStudents (RollNumber, Name, City) 
+values (3, 'Fareen', 'mumbai')
+go
+select * from ConfirmedStudents
+go
+-- turn off identity insert
+set Identity_Insert ConfirmedStudents OFF
+
+insert into ConfirmedStudents values ('shubham', 'pune') -- 6
+go
+select * from ConfirmedStudents -- 6
+go
+delete from ConfirmedStudents
+go
+insert into ConfirmedStudents values ('vihaan', 'pune') -- 7
+go
+select * from ConfirmedStudents
+go
+delete from ConfirmedStudents
+go
+insert into ConfirmedStudents values ('Krishika', 'pune') -- 8
+go
+-- reset identity value after deleting all records
+
+delete from ConfirmedStudents
+
+-- to reset identity value to its original seed & increment
+dbcc checkident (ConfirmedStudents, reseed, 0)
+
+go
+insert into ConfirmedStudents values ('Krishika', 'pune')
+go
+select * from ConfirmedStudents
+go
+
+go
+drop table ConfirmedStudents
+go
+create table ConfirmedStudents
+(
+RollNumber int primary key identity(1,1),
+Name varchar(50),
+City varchar(50)
+)
+go
+insert into ConfirmedStudents values ('vihaan', 'pune') -- 1
+go
+-- How to get last generated identity column value?
+select scope_identity() -- 1
+select @@identity -- 1
+select IDENT_CURRENT('ConfirmedStudents') -- 1
+
+-- session 1
+insert into ConfirmedStudents values ('krishika', 'pune') -- 2
+select scope_identity() -- 2
+select @@identity -- 2
+select IDENT_CURRENT('ConfirmedStudents') -- 2
+
+-- session 2
+select scope_identity() -- null
+select @@identity -- null
+select IDENT_CURRENT('ConfirmedStudents') -- 2
+
+insert into ConfirmedStudents values ('mihaan', 'pune') -- 3
+
+select scope_identity() -- 3
+select @@identity -- 3
+select IDENT_CURRENT('ConfirmedStudents') -- 3
+
+-- scope
+create procedure usp_insertStudent
+as
+begin
+	insert into ConfirmedStudents values ('vhaash', 'pune') 
+end
+
+-- session 3
+
+select scope_identity() -- null
+select @@identity -- null
+select IDENT_CURRENT('ConfirmedStudents') -- 3
+
+-- same session different scope
+execute usp_insertStudent
+
+-- last identity = 4
+
+select scope_identity() -- null
+select @@identity -- 4
+select IDENT_CURRENT('ConfirmedStudents') -- 4
+
+-- same session same scope
+ insert into ConfirmedStudents values ('anup', 'pune') -- 5
+
+select scope_identity() -- 5 
+select @@identity -- 5
+select IDENT_CURRENT('ConfirmedStudents') -- 5
+
+go
+
+select * from ConfirmedStudents
+
+insert into ConfirmedStudents values ('apurva', 'kalyan')
+select SCOPE_IDENTITY()
+
+go
+
+create table Sample
+(
+Name varchar(5),
+City varchar(50)
+)
+
+insert into Sample values ('om', 'pune')
+insert into Sample values ('ajay', 'pune')
+
+insert into Sample values ('chetan', 'pune')
+
+select * from Sample
+
