@@ -1,0 +1,98 @@
+
+go
+select e.Name as EmployeeName, m.Name as ManagerName
+from Employee e left join Employee m
+on e.ManagerId = m.Id
+go
+-- meaning of NULL
+
+-- using isnull() - most used
+select e.Name as EmployeeName, ISNULL(m.Name, 'OWNER') as ManagerName
+from Employee e left join Employee m
+on e.ManagerId = m.Id
+
+go
+
+select e.Name as EmployeeName, COALESCE(m.Name, 'NO MANAGER') as ManagerName
+from Employee e left join Employee m
+on e.ManagerId = m.Id
+go
+
+create table Person
+(
+Id int identity,
+Name varchar(50),
+Gender varchar(10),
+City varchar(50),
+PrimaryEmail varchar(50),
+AlternateEmail varchar(50)
+)
+go
+insert into Person values ('ajay', 'male', 'pune', 'a@a.com', null),
+('shital', 'female', 'pune', null, 's1@s1.com'),
+('ganesh', 'male', 'mumbai', 'g@g.com', null),
+('kiran', 'male', 'mumbai', null, null)
+
+insert into Person values ('vijay', 'male', 'pune', 'v@v.com', 'v1@v1.com')
+go
+select * from Person
+go
+
+select Name, PrimaryEmail, AlternateEmail,
+COALESCE(PrimaryEmail, AlternateEmail, 'NO EMAIL') as Email
+from Person
+
+go
+
+-- case statement
+
+select e.Name as EmployeeName, 
+(case when m.Name is null then 'OWNER' else m.Name end) as ManagerName
+from Employee e left join Employee m
+on e.ManagerId = m.Id
+
+declare @DayNumber int = 4
+
+select case 
+when @DayNumber = 1 then 'SUNDAY'
+when @DayNumber = 2 then 'MONDAY'
+when @DayNumber = 3 then 'TUESDAY'
+when @DayNumber = 4 then 'WEDNESDAY'
+when @DayNumber = 5 then 'THURSDAY'
+when @DayNumber = 6 then 'FRIDAY'
+when @DayNumber = 7 then 'SATURDAY'
+else 'INVALID DAY NUMBER'
+end
+
+go
+
+select Name, Gender,
+(case when Gender = 'male' then 'M' when Gender = 'female' then 'F' else 'INVALID' end) as
+ModifiedGenderName,
+City from Person
+
+go
+
+-- write a query to select City Pune <-> Mumbai replacement
+select Name, 'mumbai' as City from Person where City = 'pune'
+select Name, 'pune' as City from Person where City = 'mumbai'
+
+select Name,
+(case when City = 'pune' then 'mumbai' 
+when City = 'mumbai' then 'pune' else City end) as City
+from Person
+
+select Name, City from Person
+
+--update Person set City = 'pune' where City = 'mumbai'
+--update Person set City = 'mumbai' where City = 'pune'
+
+update Person set City = 
+(
+case when City = 'pune' then 'mumbai'
+when City = 'mumbai' then 'pune'
+else City 
+end
+)
+
+select Name, City from Person
