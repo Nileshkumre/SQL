@@ -1,0 +1,106 @@
+
+go
+select * from Trainer
+go
+-- new location column
+alter table Trainer add Location varchar(50) default 'Pune'
+go
+-- new City column
+alter table Trainer add City varchar(50) not null default 'Pune'
+go
+
+create table MensWear
+(
+Id int,
+Name varchar(50)
+)
+go
+insert into MensWear values
+(1, 'Shirt'), (2, 'Casual Shoes'), (3, 'T-Shirt')
+go
+create table WomenWear
+(
+Id int,
+Name varchar(50)
+)
+go
+insert into WomenWear values
+(1, 'Skirt'), (2, 'Casual Shoes'), (3, 'Top'), (4, 'Kurti')
+go
+select Id, Name from MensWear
+
+select Id, Name from WomenWear
+go
+select Id, Name from MensWear
+union all
+select Id, Name from WomenWear
+go
+select Id, Name from MensWear
+union 
+select Id, Name from WomenWear
+go
+select Id from MensWear
+union all
+select Id, Name from WomenWear
+go
+select Name, Id from MensWear
+union all
+select Id, Name from WomenWear
+go
+-- intersect
+select Id, Name from MensWear
+intersect
+select Id, Name from WomenWear
+go
+-- except
+
+select Id, Name from MensWear
+except
+select Id, Name from WomenWear
+go
+select Id, Name from WomenWear
+except
+select Id, Name from MensWear
+go
+drop table MensWear
+drop table WomenWear
+go
+create table MensWear
+(
+Id int,
+Name varchar(50),
+Category varchar(50)
+)
+go
+insert into MensWear values
+(1, 'Shirt', 'Wear'), (2, 'Casual Shoes', 'Wear'), (3, 'T-Shirt', 'Sports')
+go
+create table WomenWear
+(
+Id int,
+Name varchar(50),
+City varchar(50)
+)
+go
+insert into WomenWear values
+(1, 'Skirt', 'pune'), (2, 'Casual Shoes','mumbai'), (3, 'Top','mumbai'), (4, 'Kurti', 'satara')
+go
+select Id,Name,Category from MensWear
+select Id, Name, City from WomenWear
+go
+select Id,Name,Category from MensWear
+union all
+select Id, Name, City from WomenWear
+go
+select Id,Name,Category,null as City from MensWear
+union all
+select Id, Name,null, City from WomenWear
+go
+
+declare @Name varchar(5) = 'anil rathod'
+print @Name
+go
+
+-- null as category is not important as 
+--  select id ,name,category null as city from menswear is defined
+
