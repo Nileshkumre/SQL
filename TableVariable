@@ -1,0 +1,68 @@
+
+go
+declare @Id int = 10
+select @Id
+
+declare @Name varchar(50) = 'ajay'
+go
+
+declare @Student table 
+(
+RollNumber int, Name varchar(50), City varchar(50)
+)
+
+-- insert into @Student values(1, 'ajay', 'pune'), (2, 'ganesh', 'mumbai')
+
+insert into @Student
+select ROllNumber, Name, City from Student
+
+select * from @Student
+
+go
+
+-- temporary table participates in transaction
+create table #temp (Id int, Name varchar(50))
+go
+insert into #temp values (1, 'ajay'), (2, 'ganesh')
+go
+select * from #temp
+go
+begin transaction
+update #temp set name = 'chetan' where Id = 1
+go
+rollback
+go
+select * from #temp
+go
+
+-- table variable with transaction
+
+declare @Table table (Id int, Name varchar(50))
+insert into @Table values (1, 'ajay'), (2, 'ganesh')
+select * from @Table
+begin transaction
+update @Table set Name = 'chetan' where Id = 1
+rollback
+select * from @Table
+
+go
+
+select * from Trainer
+
+go
+
+create table #temp1 (Id int, Name varchar(50))
+insert into #temp1 values (1, 'ajay'), (2, null), (3, 'ganesh')
+select Id, Name from #temp1
+go
+select count(*) from #temp1 -- 3
+select count(1) from #temp1 -- 1 / 3
+select count(Id) from #temp1 -- 3 
+select count(Name) from #temp1 -- 2
+go
+
+--declare @a int = null, @b int = null
+--select case when @a = @b then 'EQUAL' else 'NOT EQUAL' end
+
+declare @a varchar(4) = 'null', @b varchar(4) = 'null'
+select case when @a = @b then 'EQUAL' else 'NOT EQUAL' end
